@@ -57,9 +57,9 @@ function initL2dCanvas(canvasId) {
     window.addEventListener("mouseup", mouseEvent);
     document.addEventListener("mouseleave", mouseEvent);
     //canvas.addEventListener("contextmenu", mouseEvent);
-    window.addEventListener("touchstart", touchEvent);
-    window.addEventListener("touchend", touchEvent);
-    window.addEventListener("touchmove", touchEvent);
+    // window.addEventListener("touchstart", touchEvent);
+    // window.addEventListener("touchend", touchEvent);
+    // window.addEventListener("touchmove", touchEvent);
   }
 }
 
@@ -424,4 +424,38 @@ function loadlive2d(id,modelurl,headPos) {
     init(modelurl);
 }
 
-window.loadlive2d = loadlive2d;
+// window.loadlive2d = loadlive2d;
+
+(function () {
+    document.addEventListener('touchmove', function(e) {
+        e.preventDefault();
+    });
+    var canvas = document.getElementById('glcanvas')
+
+    var w = window.innerWidth
+    || document.documentElement.clientWidth
+    || document.body.clientWidth
+
+    var h = window.innerHeight
+    || document.documentElement.clientHeight
+    || document.body.clientHeight
+
+    if (w >= h) {
+        canvas.width = w/2
+        canvas.height = h
+        canvas.style.marginLeft = -(canvas.width/2)+'px'
+        canvas.style.bottom = -(canvas.height/2)+'px'
+    } else {
+        canvas.width = w * 2
+        canvas.height = h / 1.5 * 2
+        canvas.style.left = '0'
+        canvas.style.bottom = '0'
+        canvas.style.width = canvas.width/2 + 'px'
+        canvas.style.height = canvas.height/2 + 'px'
+    }
+
+    var modelName = ['hijiki', 'shizuku']
+    modelName = modelName[parseInt(Math.random()*modelName.length+0,10)]
+
+    loadlive2d("glcanvas", "../assets/"+models[modelName], 0.5)
+}())
